@@ -94,7 +94,6 @@ try_patch()
 
 	# OK, so we could apply the patch. Let's run some checks
 	# on the port
-	# TODO: run portlint, portclippy, ,etc...
 
 	portlint -AC "${port_dir}"
 	portclippy  "${port_dir}"/Makefile
