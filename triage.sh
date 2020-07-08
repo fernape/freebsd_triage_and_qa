@@ -1,6 +1,7 @@
 #!/usr/local/bin/bash
 
 source config.sh
+source change_analyzer.sh
 source patch_checker.sh
 source pr_checkers.sh
 source utils.sh
@@ -20,7 +21,8 @@ echo -------------
 echo TRIAGE CHECKS
 echo -------------
 
-get_pr "${1}"
+pr="${1}"
+get_pr "${pr}"
 
 check_reporter_is_maintainer
 check_reporter_is_committer
@@ -33,3 +35,8 @@ if [[ "${data["Attachments"]}" -ne 0 ]]; then
 	# patches.
 	try_patch "${1}" "${data["PatchID"]}"
 fi
+
+# Regardless of the presence of a patch, we are going to
+# analyze the changes made to the port
+port=$(get_port_name)
+analyze_changes "${WRKDIR}"/"${pr}"/"${port}"
