@@ -69,7 +69,7 @@ get_strip_level()
 	local strip_level
 
 	patch_file="${1}"
-	strip_level=$(grep '\-\-\-' "${patch_file}" | head -n1 | cut -f2 -d" " \
+	strip_level=$(grep -E '\+\+\+ ([[:alnum:]])+' "${patch_file}" | head -n1 | cut -f2 -d" " \
 		| grep -F -o / | wc -l)
 
 	# if the patch we are dealing with is about a patch in files/
@@ -77,7 +77,7 @@ get_strip_level()
 	# a patch like net-im/6cord/Makefile and other like
 	# for net-im/6cord/files/patch.patch would return 2 for both.
 
-	ret=$(grep '\-\-\-' "${patch_file}" | grep 'files/')
+	ret=$(grep '\+\+\+' "${patch_file}" | grep 'files/')
 
 	if [[ -n "${ret}" ]]; then
 		strip_level=$(("${strip_level}" - 1))
