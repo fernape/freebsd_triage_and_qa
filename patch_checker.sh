@@ -56,15 +56,16 @@ apply_patch()
 	patch -p"${strip_n}" -E < ../../"${patch_file}" &> /dev/null
 
 	if [[ ${?} -ne 0 ]]; then
-		echo Could not apply patch
-		return 1
+		echo 1
+		return
 	fi
 
 	# After applying the patch, we should delete the .orig
 	# so portlint does not get mad
 	find "${pr_dir}" -name '*.orig' -delete
 
-	return 0
+	echo 0
+	return
 }
 
 #################################################
