@@ -30,11 +30,9 @@ checkout_port()
 get_pr()
 {
 	local pr_raw
-	pr_raw=$(${BUGZ_CMD} get "${1}")
+	pr_raw=$(${CURL_CMD}"/${1}")
 	for field in ${FIELDS};do
-		value=$(echo "${pr_raw}" | grep "${field}" \
-			| gawk 'match($0, /:.*$/, ary) {print ary[0]}' \
-			| sed -e 's/^: //g')
+		value=$(echo "${pr_raw}" | jq ".bugs[0].${field}")
 		data["${field}"]=${value}
 	done
 
@@ -50,7 +48,7 @@ get_port_name()
 {
 	local port
 
-	port=$(echo "${data["Title"]}" \
+	port=$(echo "${data["summary"]}" \
 		| grep -E -o '([[:alnum:]]|-|_)*/([[:alnum:]]|-|_)*')
 
 	echo "${port}"

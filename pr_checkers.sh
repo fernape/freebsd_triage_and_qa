@@ -29,15 +29,15 @@ check_reporter_is_maintainer()
 	local port
 	local reporter
 
-	new_port=$(echo "${data["Title"]}" | grep -i 'new port')
+	new_port=$(echo "${data["summary"]}" | grep -i 'new port')
 
 	if [[ -n "${new_port}" ]]; then
 		# This is a new port, no need to check anymore
 		return
 	fi
 
-	reporter=${data["Reporter"]}
-	port=$(echo "${data["Title"]}" \
+	reporter=${data["creator"]}
+	port=$(echo "${data["summary"]}" \
 			| grep -E -o '([[:alnum:]]|-|_)*/([[:alnum:]]|-|_)*')
 	maintainer=$(make -C "${PORTS_BASE}/${port}" -VMAINTAINER)
 
@@ -53,11 +53,11 @@ check_reporter_is_maintainer()
 check_reporter_is_committer()
 {
 	local is_commiter
-	is_commiter=$(echo "${data["Reporter"]}" | grep -i '@FreeBSD.org')
+	is_commiter=$(echo "${data["creator"]}" | grep -i '@FreeBSD.org')
 
-	if [[ -n "${is_commiter}" && "${is_commiter}" != "${data["AssignedTo"]}" ]]; then
+	if [[ -n "${is_commiter}" && "${is_commiter}" != "${data["assigned_to"]}" ]]; then
 		echo -n Reporter is commiter and does not auto assign:
-		echo "${data["Reporter"]}"
+		echo "${data["creator"]}"
 	fi
 }
 
@@ -74,9 +74,9 @@ check_title()
 	local tags
 
 	remove_words="commit|current|tag|version|->"
-	tags=$(echo "${data["Title"]}" \
+	tags=$(echo "${data["summary"]}" \
 			| grep -E -o '\[([[:alnum:]]| )*\]')
-	superfluous=$(echo "${data["Title"]}" \
+	superfluous=$(echo "${data["summary"]}" \
 			| grep -E -i -o -w "${remove_words}")
 	new_port=$(echo "${tags}" | grep -i 'new port')
 
@@ -97,7 +97,7 @@ check_title()
 check_for_changelog()
 {
 	local is_update
-	is_update=$(echo "${data["Title"]}" | grep -E -i 'update|upgrade')
+	is_update=$(echo "${data["summary"]}" | grep -E -i 'update|upgrade')
 
 	if [[ -n "${is_update}" && -z "${data["URL"]}" ]]; then
 		echo Port udpate without changelog
