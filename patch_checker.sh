@@ -86,7 +86,6 @@ apply_patch()
 	find "${pr_dir}" -name '*.orig' -delete
 
 	echo 0
-	return
 }
 
 #################################################
