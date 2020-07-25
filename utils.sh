@@ -33,7 +33,8 @@ get_pr()
 	pr_raw=$(${CURL_CMD}"/${1}")
 	for field in ${FIELDS};do
 		value=$(echo "${pr_raw}" | jq ".bugs[0].${field}")
-		data["${field}"]=${value}
+		# Assign value removing double quotes
+		data["${field}"]=${value//\"/}
 	done
 
 	if [[ "${data["Attachments"]}" -ne 0 ]]; then
