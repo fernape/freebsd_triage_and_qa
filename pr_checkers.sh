@@ -75,7 +75,7 @@ check_title()
 
 	remove_words="commit|current|tag|version|->"
 	tags=$(echo "${data["summary"]}" \
-			| grep -E -o '\[([[:alnum:]]| )*\]')
+			| grep -E -o '\[([[:alnum:]]| |-)*\]')
 	superfluous=$(echo "${data["summary"]}" \
 			| grep -E -i -o -w "${remove_words}")
 	new_port=$(echo "${tags}" | grep -i 'new port')
