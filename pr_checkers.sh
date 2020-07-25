@@ -21,9 +21,13 @@ check_port_exists()
 
 #################################################
 # Check if reporter is the same as maintainer	#
+# and if so, check if the patch has the 	#
+# maintainer-approval flag set			#
+# It assumes there is only one patch attached	#
 #################################################
 check_reporter_is_maintainer()
 {
+	local has_flag
 	local maintainer
 	local new_port
 	local port
@@ -42,7 +46,12 @@ check_reporter_is_maintainer()
 	maintainer=$(make -C "${PORTS_BASE}/${port}" -VMAINTAINER)
 
 	if [[ "${reporter}" == "${maintainer}" ]]; then
-		echo Reporter is maintainer: "${reporter}" vs "${maintainer}"
+		has_flag="$(has_maintainer_flag ${data["pr_id"]})"
+		if [[ "${has_flag}" -eq 0 ]]; then
+			echo Reporter is maintainer: \
+			"${reporter}" vs "${maintainer}" \
+			but no mantainer-flag is set
+		fi
 	fi
 }
 
