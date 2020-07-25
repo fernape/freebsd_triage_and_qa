@@ -99,7 +99,7 @@ check_for_changelog()
 	local is_update
 	is_update=$(echo "${data["summary"]}" | grep -E -i 'update|upgrade')
 
-	if [[ -n "${is_update}" && -z "${data["URL"]}" ]]; then
+	if [[ -n "${is_update}" && -z "${data["url"]}" ]]; then
 		echo Port udpate without changelog
 	fi
 }
