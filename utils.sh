@@ -36,6 +36,8 @@ get_pr()
 		# Assign value removing double quotes
 		data["${field}"]=${value//\"/}
 	done
+
+	data["pr_id"]="${1}"
 }
 
 get_port_name()
