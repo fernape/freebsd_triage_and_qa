@@ -27,9 +27,18 @@ checkout_port()
 	echo "${target}"/"${port}"
 }
 
+
+#################################################
+# Gets and parses a PR				#
+# $1: The PR id					#
+# Result: fill data hash map with fields in PR	#
+#################################################
 get_pr()
 {
+	local pr_id
 	local pr_raw
+
+	pr_id="${1}"
 	pr_raw=$(${CURL_CMD}"/${1}")
 	for field in ${FIELDS};do
 		value=$(echo "${pr_raw}" | jq ".bugs[0].${field}")
@@ -99,7 +108,7 @@ has_maintainer_flag()
 	pr="${1}"
 
 	flags=$(${CURL_CMD}/"${pr}"/attachment \
-			| ${JQ} ".bugs.\"${pr}\"[0].flags[0]" \
+			| ${JQ} ".bugs.\"${pr}\"[0].flags[0].status" \
 			| sed -e 's/"//g')
 
 	if [[ "${flags}" == "+" ]]; then
