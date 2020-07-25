@@ -87,3 +87,29 @@ get_strip_level()
 
 	echo "${strip_level}"
 }
+
+#################################################
+# Returns true if the attachment of the PR has	#
+# the maintainer-flag set.			#
+# It assumes one patch attached only		#
+# $1: PR id					#
+# Return: 1 if flag is set, 0 otherwise		#
+#################################################
+
+has_maintainer_flag()
+{
+	local flags
+	local pr
+
+	pr="${1}"
+
+	flags=$(${CURL_CMD}/"${pr}"/attachment \
+			| ${JQ} ".bugs.\"${pr}\"[0].flags[0]" \
+			| sed -e 's/"//g')
+
+	if [[ "${flags}" == "+" ]]; then
+		echo 1
+	else
+		echo 0
+	fi
+}
