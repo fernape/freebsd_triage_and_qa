@@ -6,6 +6,8 @@
 
 # curl executable
 CURL=$(which curl)
+# jq executable
+JQ=$(which jq)
 # Bugzilla REST URL
 BUGZILLA_URL=https://bugs.freebsd.org/bugzilla/rest/bug
 # Command invokation

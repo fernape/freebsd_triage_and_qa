@@ -30,13 +30,18 @@ check_title
 check_for_changelog
 check_port_exists
 
-if [[ "${data["Attachments"]}" -ne 0 ]]; then
+has_patches=$(number_of_patches "${pr}")
+if [[ "${has_patches}" -eq 1 ]]; then
 	# This pr has attachments, let's try to apply
 	# patches.
-	try_patch "${1}" "${data["PatchID"]}"
-fi
+	try_patch "${1}"
 
-# Regardless of the presence of a patch, we are going to
-# analyze the changes made to the port
-port=$(get_port_name)
-analyze_changes "${WRKDIR}"/"${pr}"/"${port}"
+	port=$(get_port_name)
+	analyze_changes "${WRKDIR}"/"${pr}"/"${port}"
+else
+	if [[ "${has_patches}" -gt 1 ]]; then
+		echo "Multiple patches in PR"
+	else
+		echo "No patches found in PR"
+	fi
+fi

@@ -7,20 +7,41 @@
 source config.sh
 source utils.sh
 
+#################################################
+# Counts the number of patches this PR has	#
+# $1: the patch id				#
+# Return: The number of patches			#
+#################################################
+number_of_patches()
+{
+	local attach_size
+	local bug_id
+	bug_id="${1}"
+
+	attach_size=$(${CURL_CMD}/"${bug_id}"/attachment \
+		| ${JQ} ".bugs.\"${bug_id}\"[].is_patch  == 1" | wc -l)
+
+	echo "${attach_size}"
+}
 
 #################################################
-# Download the attachment id passed in		#
-# $1: the patch id				#
+# Download patch from PR. Assumes there is	#
+# exactly one patch to download			#
+# $1: the PR number				#
 # Return the name of the patch in the		#
 # local filesystem				#
 #################################################
-download_attachment()
+download_patch()
 {
 	local file_name
-	local patch_id
-	patch_id="${1}"
-	file_name=$(${BUGZ_CMD} attachment "${patch_id}" | grep Saving \
-		| cut -f3 -d: | tr -d \" | tr -d "[:blank:]")
+	local pr
+	pr="${1}"
+	file_name="${pr}".patch
+
+	${CURL_CMD}/"${pr}"/attachment \
+			| ${JQ} ".bugs.\"${pr}\"[0].data" \
+			| sed -e 's/"//g' \
+			| b64decode -r > "${file_name}"
 
 	echo "${file_name}"
 }
@@ -70,8 +91,8 @@ apply_patch()
 
 #################################################
 # Try to apply a patch from a pr		#
+# This function assumes there is only one patch	#
 # $1: pr id					#
-# $2: patch id					#
 #################################################
 try_patch()
 {
@@ -82,10 +103,9 @@ try_patch()
 	local success
 
 	pr="${1}"
-	patchid="${2}"
 	
 	port_dir=$(checkout_port "${pr}")
-	patch_file=$(download_attachment "${patchid}")
+	patch_file=$(download_patch "${pr}")
 	success=$(apply_patch "${pr}" "${patch_file}")
 
 	if [[ "${success}" -ne 0 ]]; then
