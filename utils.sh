@@ -64,11 +64,14 @@ get_port_name()
 get_strip_level()
 {
 	local patch_file
+	local ref_line
 	local ret
 	local strip_level
 
 	patch_file="${1}"
-	strip_level=$(grep -E '\+\+\+ ([[:alnum:]])+' "${patch_file}" | head -n1 | cut -f2 -d" " \
+	ref_line="$(grep -E '\+\+\+ ([[:alnum:]])+' "${patch_file}" | head -n1)"
+
+	strip_level=$(echo "${ref_line}" | cut -f2 -d" " \
 		| grep -F -o / | wc -l)
 
 	# if the patch we are dealing with is about a patch in files/
@@ -76,7 +79,7 @@ get_strip_level()
 	# a patch like net-im/6cord/Makefile and other like
 	# for net-im/6cord/files/patch.patch would return 2 for both.
 
-	ret=$(grep '\+\+\+' "${patch_file}" | grep 'files/')
+	ret=$(echo "${ref_line}"| grep 'files/')
 
 	if [[ -n "${ret}" ]]; then
 		strip_level=$(("${strip_level}" - 1))
