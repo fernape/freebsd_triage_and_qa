@@ -24,14 +24,17 @@ echo -------------
 pr="${1}"
 get_pr "${pr}"
 
-check_reporter_is_maintainer
+has_patches=$(number_of_patches "${pr}")
+
 check_reporter_is_committer
 check_title
 check_for_changelog
 check_port_exists
 
-has_patches=$(number_of_patches "${pr}")
 if [[ "${has_patches}" -eq 1 ]]; then
+	# It has one patch, let's see if the maintainer-approval flag is set
+	check_reporter_is_maintainer
+
 	# This pr has attachments, let's try to apply
 	# patches.
 	try_patch "${1}"
