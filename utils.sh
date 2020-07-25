@@ -36,13 +36,6 @@ get_pr()
 		# Assign value removing double quotes
 		data["${field}"]=${value//\"/}
 	done
-
-	if [[ "${data["Attachments"]}" -ne 0 ]]; then
-		# This pr has attachments, let's get
-		# the last one
-		data["PatchID"]=$(echo "${pr_raw}" | grep "Created attachment" \
-			| cut -f3 -d" " | sort -run | head -1)
-	fi
 }
 
 get_port_name()
