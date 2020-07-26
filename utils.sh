@@ -117,3 +117,37 @@ has_maintainer_flag()
 		echo 0
 	fi
 }
+
+
+#################################################
+# Push actions and messages to the stack so	#
+# they can be printed later			#
+# $1: key for the messsages and actions hash	#
+# Globals: msg_stack, act_stack, messages,	#
+# actions					#
+#################################################
+push_to_report()
+{
+	local key
+	key="${1}"
+
+	msg_stack+=("${messages["${key}"]}")
+	msg_stack+=("${actions["${key}"]}")
+}
+
+
+#################################################
+# Print the final report with the messages and	#
+# the actions					#
+# Globals: msg_stack, act_stack			#
+#################################################
+print_report()
+{
+	echo -e "\n---------- REPORT ---------- "
+	echo "Messages:"
+	echo "${msg_stack[@]}"
+
+	echo "Actions:"
+	# Filter in case there are redundant actions
+	echo "${act_stack[@]}" | sort -u
+}

@@ -28,3 +28,8 @@ keywords severity component target_milestone creation_time"
 # where we have the data of the pr
 declare -A data
 
+# message stack
+declare -a msg_stack
+
+# actions stack
+declare -a act_stack

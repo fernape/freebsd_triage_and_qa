@@ -48,3 +48,5 @@ else
 		echo "No patches found in PR"
 	fi
 fi
+
+print_report

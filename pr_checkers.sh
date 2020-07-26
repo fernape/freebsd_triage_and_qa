@@ -1,5 +1,7 @@
 #!/usr/local/bin/bash
 
+source templates.sh
+
 #################################################
 # File with all the ckecker functions		#
 # related to PR and bugzilla themselves		#
@@ -51,6 +53,7 @@ check_reporter_is_maintainer()
 			echo Reporter is maintainer: \
 			"${reporter}" vs "${maintainer}" \
 			but no mantainer-flag is set
+			push_to_report "SET_MAINTAINER_APPROVAL"
 		fi
 	fi
 }
@@ -67,6 +70,7 @@ check_reporter_is_committer()
 	if [[ -n "${is_commiter}" && "${is_commiter}" != "${data["assigned_to"]}" ]]; then
 		echo -n Reporter is commiter and does not auto assign:
 		echo "${data["creator"]}"
+		push_to_report "REPORTER_IS_COMMITTER"
 	fi
 }
 
@@ -96,6 +100,7 @@ check_title()
 	
 	if [[ -n "${tags}" ]]; then
 		echo Tags usage is deprecated: "${tags}"
+		push_to_report "TAGS"
 	fi
 	
 	if [[ -n "${superfluous}" ]]; then
@@ -110,5 +115,6 @@ check_for_changelog()
 
 	if [[ -n "${is_update}" && -z "${data["url"]}" ]]; then
 		echo Port udpate without changelog
+		push_to_report "CHANGELOG"
 	fi
 }
