@@ -132,7 +132,7 @@ push_to_report()
 	key="${1}"
 
 	msg_stack+=("${messages["${key}"]}")
-	msg_stack+=("${actions["${key}"]}")
+	act_stack+=("${actions["${key}"]}")
 }
 
 
