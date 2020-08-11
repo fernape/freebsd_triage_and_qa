@@ -15,8 +15,7 @@ messages["CHANGELOG"]="^Triage: If there is a changelog or release notes URL ava
 messages["REQUEST_APPROVAL"]="^Triage: Please set the maintainer-approval attachment flag (to ?) and set the requestee field to the e-mail address of the maintainer to ask for maintainer approval.
 --
 Attachment -> Details -> maintainer-approval [?]"
-messages["SET_MAINTAINER_APPROVAL"]="^Triage: Please set the
-maintainer-approval attachment flag (to +) on patches for ports you maintain to signify approval.
+messages["SET_MAINTAINER_APPROVAL"]="^Triage: Please set the maintainer-approval attachment flag (to +) on patches for ports you maintain to signify approval.
 --
 Attachment -> Details -> maintainer-approval [+]"
 messages["CLEAR_MAINTAINER_FEEDBACK"]="^Triage: Maintainer-feedback flag (+) not required unless requested (?) first."
@@ -27,7 +26,6 @@ messages["TAGS"]="^Triage: [tags] in issue Titles are deprecated."
 messages["GENERAL_SUPPORT"]="^Triage: Thank you for your report. Our issue tracker is used for issues identified to be bugs and enhancements.
 --
 If your issue is isolated to be a bug and is reproducible on an up-to-date and supported FreeBSD version, please re-open this issue with additional information and steps to reproduce."
-messages["REPORTER_IS_COMMITTER"]="^Triage: Reporter is committer, assign accordingly."
 
 #################################
 # Action templates		#
