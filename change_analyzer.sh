@@ -42,7 +42,7 @@ check_portrevision()
 	if [[ -n "${res}" && -n "${has_portrevision}" ]]; then
 		# There were changes to PORT/DIST VERSION
 		# so PORTREVISION is not needed
-		echo PORTREVISION should be removed
+		push_to_report "REMOVE_PORTREVISION"
 	fi
 	
 }
