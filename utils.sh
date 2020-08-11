@@ -147,7 +147,9 @@ print_report()
 	echo "Messages:"
 	printf "%s\n" "${msg_stack[@]}"
 
-	echo "Actions:"
+	echo -e "\nActions:"
 	# Filter in case there are redundant actions
 	printf "%s\n" "${act_stack[@]}" | sort -u
+
+	echo -e "\nThanks!"
 }
