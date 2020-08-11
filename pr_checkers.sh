@@ -86,7 +86,7 @@ check_title()
 	local superfluous
 	local tags
 
-	remove_words="commit|current|tag|version|->"
+	remove_words="commit|current|tag|version|port|->"
 	tags=$(echo "${data["summary"]}" \
 			| grep -E -o '\[([[:alnum:]]| |-)*\]')
 	superfluous=$(echo "${data["summary"]}" \
@@ -104,7 +104,7 @@ check_title()
 	fi
 	
 	if [[ -n "${superfluous}" ]]; then
-		echo Superfluous words in title: "${superfluous}"
+		push_to_report "BOGUS_TITLE"
 	fi
 }
 

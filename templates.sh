@@ -56,3 +56,4 @@ Status: Closed
 Resolution: Not A Bug"
 actions["REPORTER_IS_COMMITTER"]="Assignee: <reporter>
 Keywords: needs-qa"
+actions["BOGUS_TITLE"]="Reword title"
