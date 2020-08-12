@@ -129,10 +129,18 @@ has_maintainer_flag()
 push_to_report()
 {
 	local key
+	local text
 	key="${1}"
 
-	msg_stack+=("${messages["${key}"]}")
-	act_stack+=("${actions["${key}"]}")
+	text=("${messages["${key}"]}")
+	if [[ -n "${text}" ]]; then
+		msg_stack+=("${text}")
+	fi
+
+	text=("${actions["${key}"]}")
+	if [[ -n "${text}" ]]; then
+		act_stack+=("${text}")
+	fi
 }
 
 
@@ -144,12 +152,16 @@ push_to_report()
 print_report()
 {
 	echo -e "\n---------- REPORT ---------- "
-	echo "Messages:"
-	printf "%s\n" "${msg_stack[@]}"
+	if [[ ${#msg_stack[@]} -ne 0 ]]; then
+		echo "Messages:"
+		printf "%s\n" "${msg_stack[@]}"
+	fi
 
-	echo -e "\nActions:"
-	# Filter in case there are redundant actions
-	printf "%s\n" "${act_stack[@]}" | sort -u
+	if [[ ${#act_stack[@]} -ne 0 ]]; then
+		echo -e "\nActions:"
+		# Filter in case there are redundant actions
+		printf "%s\n" "${act_stack[@]}" | sort -u
+	fi
 
 	echo -e "\nThanks!"
 }
