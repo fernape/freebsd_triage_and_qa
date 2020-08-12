@@ -54,6 +54,4 @@ actions["TAGS"]="Remove tag (except [NEW PORT]) from summary"
 actions["GENERAL_SUPPORT"]="Assignee: <you>
 Status: Closed
 Resolution: Not A Bug"
-actions["REPORTER_IS_COMMITTER"]="Assignee: <reporter>
-Keywords: needs-qa"
 actions["BOGUS_TITLE"]="Reword title"
