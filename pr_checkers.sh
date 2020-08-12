@@ -1,6 +1,7 @@
 #!/usr/local/bin/bash
 
 source templates.sh
+source utils.sh
 
 #################################################
 # File with all the ckecker functions		#
@@ -43,8 +44,7 @@ check_reporter_is_maintainer()
 	fi
 
 	reporter=${data["creator"]}
-	port=$(echo "${data["summary"]}" \
-			| grep -E -o '([[:alnum:]]|-|_)*/([[:alnum:]]|-|_)*')
+	port=$(get_port_name)
 	maintainer=$(make -C "${PORTS_BASE}/${port}" -VMAINTAINER)
 
 	if [[ "${reporter}" == "${maintainer}" ]]; then

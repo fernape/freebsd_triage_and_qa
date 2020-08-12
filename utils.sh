@@ -54,7 +54,7 @@ get_port_name()
 	local port
 
 	port=$(echo "${data["summary"]}" \
-		| grep -E -o '([[:alnum:]]|-|_)*/([[:alnum:]]|-|_)*')
+		| grep -E -o '([[:alnum:]]|-|_)*/([[:alnum:]]|-|_|\.)*')
 
 	echo "${port}"
 }
