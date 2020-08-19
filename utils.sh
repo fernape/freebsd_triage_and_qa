@@ -46,6 +46,9 @@ get_pr()
 		data["${field}"]=${value//\"/}
 	done
 
+	data["maintainer-feedback"]=$(echo "${pr_raw}" \
+		| jq ".bugs[0].flags[].name" | grep "maintainer-feedback")
+
 	data["pr_id"]="${1}"
 }
 

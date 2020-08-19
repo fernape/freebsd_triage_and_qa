@@ -25,7 +25,8 @@ check_port_exists()
 #################################################
 # Check if reporter is the same as maintainer	#
 # and if so, check if the patch has the 	#
-# maintainer-approval flag set			#
+# maintainer-approval flag set or the		#
+# maintainer-feedback flag in the PR		#
 # It assumes there is only one patch attached	#
 #################################################
 check_reporter_is_maintainer()
@@ -54,6 +55,10 @@ check_reporter_is_maintainer()
 			"${reporter}" vs "${maintainer}" \
 			but no mantainer-flag is set
 			push_to_report "SET_MAINTAINER_APPROVAL"
+		fi
+		if [[ ! -z "${data["maintainer-feedback"]}" ]]; then
+			echo Reporter is maintainer and sets maintainer-feedback
+			push_to_report "CLEAR_MAINTAINER_FEEDBACK"
 		fi
 	fi
 }
