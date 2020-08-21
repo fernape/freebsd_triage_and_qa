@@ -109,7 +109,7 @@ try_patch()
 
 	if [[ "${success}" -ne 0 ]]; then
 		echo "Patch does not apply"
-		exit
+		return
 	fi
 
 	# OK, so we could apply the patch. Let's run some checks
