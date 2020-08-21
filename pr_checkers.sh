@@ -91,7 +91,7 @@ check_title()
 	local superfluous
 	local tags
 
-	remove_words="commit|current|tag|version|port|->"
+	remove_words="commit|current|patch|port|tag|version|->"
 	tags=$(echo "${data["summary"]}" \
 			| grep -E -o '\[([[:alnum:]]| |-)*\]')
 	superfluous=$(echo "${data["summary"]}" \
