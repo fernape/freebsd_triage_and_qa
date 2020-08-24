@@ -117,4 +117,5 @@ try_patch()
 
 	portlint -AC "${port_dir}"
 	portclippy  "${port_dir}"/Makefile
+	portcfmt  -D "${port_dir}"/Makefile
 }
