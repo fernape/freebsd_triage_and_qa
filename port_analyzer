@@ -1,0 +1,12 @@
+#!/usr/local/bin/bash
+
+source change_analyzer.sh
+source patch_checker.sh
+
+#########################################
+# Analyze changes in a port before	#
+# committing				#
+#########################################
+
+run_linters "${1}"
+analyze_changes "${1}"
