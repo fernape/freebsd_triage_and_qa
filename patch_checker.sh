@@ -88,6 +88,23 @@ apply_patch()
 	echo 0
 }
 
+
+#################################################
+# Run some linters in the port directory	#
+# $1: directory of the port to check. Can be	#
+# empty and it assumes the local directory	#
+#################################################
+run_linters()
+{
+	local port_dir
+
+	port_dir="${1}"
+
+	portlint -AC "${port_dir}"
+	portclippy  "${port_dir}"/Makefile
+	portfmt  -D "${port_dir}"/Makefile
+}
+
 #################################################
 # Try to apply a patch from a pr		#
 # This function assumes there is only one patch	#
@@ -115,7 +132,5 @@ try_patch()
 	# OK, so we could apply the patch. Let's run some checks
 	# on the port
 
-	portlint -AC "${port_dir}"
-	portclippy  "${port_dir}"/Makefile
-	portfmt  -D "${port_dir}"/Makefile
+	run_linters "${port_dir}"
 }
