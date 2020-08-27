@@ -8,5 +8,5 @@ source patch_checker.sh
 # committing				#
 #########################################
 
-run_linters "${1}"
 analyze_changes "${1}"
+run_linters "${1}"
