@@ -31,10 +31,8 @@ check_title
 check_for_changelog
 check_port_exists
 
+check_reporter_is_maintainer
 if [[ "${has_patches}" -eq 1 ]]; then
-	# It has one patch, let's see if the maintainer-approval flag is set
-	check_reporter_is_maintainer
-
 	# This pr has attachments, let's try to apply
 	# patches.
 	try_patch "${1}"
