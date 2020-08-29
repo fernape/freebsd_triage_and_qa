@@ -1,5 +1,6 @@
 #!/usr/local/bin/bash
 
+source config.sh
 source change_analyzer.sh
 source patch_checker.sh
 
@@ -9,4 +10,5 @@ source patch_checker.sh
 #########################################
 
 analyze_changes "${1}"
+print_report
 run_linters "${1}"
