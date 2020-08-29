@@ -29,6 +29,7 @@ If your issue is isolated to be a bug and is reproducible on an up-to-date and s
 
 #### Cusctom mesages not present in the wiki ####
 messages["REMOVE_PORTREVISION"]="Q/A: PORTREVISION should be removed"
+messages["GH_TAGTUPLE"]="Q/A: DIST/PORTVERSION has been updated but GH_TAGNAME/TUPLE has not been updated"
 
 #################################
 # Action templates		#

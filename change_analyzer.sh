@@ -111,23 +111,26 @@ check_portrevision()
 # Check that if the port uses GH_TAGNAME or	#
 # GH_TUPLE they arechanged if			#
 # PORTVERSION/DISTVERSION is changed too.	#
+# $1: diff to be analyzed			#
 #################################################
 check_gh_commit()
 {
-	local tagname
-	local tuple
+	local diff
 
-	tagname=0
-	tuple=0
+	diff="${1}"
 
 	if [[ $(variable_in_makefile GH_TAGNAME Makefile) -eq 1 ]]; then
-		tagname=1
+		if [[ $(variable_changed GH_TAGNAME "${diff}") -ne 1 ]]; then
+			push_to_report "GH_TAGTUPLE"
+			return
+		fi
 	fi
+
 	if [[ $(variable_in_makefile GH_TUPLE Makefile) -eq 1 ]]; then
-		tuple=1
+		if [[ $(variable_changed GH_TUPLE "${diff}") -ne 1 ]]; then
+			push_to_report "GH_TAGTUPLE"
+		fi
 	fi
-
-
 }
 
 #################################################
@@ -156,7 +159,7 @@ analyze_changes()
 	check_portrevision "${MAKEFILEDIFF}"
 
 	# Check if the port should change GH_* to be properly updated
-	check_gh_commit
+	check_gh_commit "${MAKEFILEDIFF}"
 
 	# Return to previous directory
 	cd -
