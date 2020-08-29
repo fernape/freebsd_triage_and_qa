@@ -1,13 +1,67 @@
 #!/usr/local/bin/bash
 
 source config.sh
+source templates.sh
 source utils.sh
+
+MAKEFILEDIFF=""
 
 #################################################
 # Functions to help analyze the changes made to	#
 # a port					#
 #################################################
 
+
+#################################################
+# Helper function that checks if the port has	#
+# a certain variable				#
+# $1: variable to look for			#
+# $2: Makefile where to be searched		#
+# Returns 1 if the varible is used, 0 otherwise #
+#################################################
+variable_in_makefile()
+{
+	local makefile
+	local res
+	local variable
+
+	variable="${1}"
+	makefile="${2}"
+
+	res=$(grep -E "^"${variable}"" "${makefile}")
+
+	if [[ -n "${res}" ]]; then
+		echo 1
+		return
+	fi
+
+	echo 0
+}
+
+#################################################
+# Check if a variable has been changed		#
+# S1: variable to be checked			#
+# $2: diff to do the check			#
+# Returns 1 if changed, 0 otherwise		#
+#################################################
+variable_changed()
+{
+	local diff
+	local res
+	local variable
+
+	variable="${1}"
+	diff="${2}"
+
+	res=$(echo "${diff}" | grep -E '^+' | grep -E "${variable}")
+
+	if [[ -n "${res}" ]]; then
+		echo 1
+		return
+	fi
+
+	echo 0
+}
 
 #################################################
 # Check that entries in distinfo match those	#
@@ -28,6 +82,7 @@ check_distfiles()
 #################################################
 # Check that PORTREVISION is removed if there	#
 # was a change to DISTVERSION or PORTVERSION	#
+# $1: Makefile diff				#
 #################################################
 check_portrevision()
 {
@@ -35,8 +90,12 @@ check_portrevision()
 	local res
 	local has_portrevision
 
-	diff=$(svn diff Makefile)
-	res=$(echo "${diff}" | grep -E '^+' | grep -E 'PORTVERSION|DISTVERSION')
+	diff="${1}"
+	if [[ $(variable_changed PORTVERSION "${diff}") -eq 1 ||
+		$(variable_changed DISTVERSION "${diff}") -eq 1 ]]; then
+			res=1
+	fi
+
 	has_portrevision=$(grep PORTREVISION Makefile)
 
 	if [[ -n "${res}" && -n "${has_portrevision}" ]]; then
@@ -47,6 +106,29 @@ check_portrevision()
 	
 }
 
+
+#################################################
+# Check that if the port uses GH_TAGNAME or	#
+# GH_TUPLE they arechanged if			#
+# PORTVERSION/DISTVERSION is changed too.	#
+#################################################
+check_gh_commit()
+{
+	local tagname
+	local tuple
+
+	tagname=0
+	tuple=0
+
+	if [[ $(variable_in_makefile GH_TAGNAME Makefile) -eq 1 ]]; then
+		tagname=1
+	fi
+	if [[ $(variable_in_makefile GH_TUPLE Makefile) -eq 1 ]]; then
+		tuple=1
+	fi
+
+
+}
 
 #################################################
 # Driver function. It calls all the other	#
@@ -62,11 +144,19 @@ analyze_changes()
 	# are being executed in that directory
 	cd "${port_dir}"
 
+	# Store the whole diff so we don't have to
+	# calculate it again and again
+
+	MAKEFILEDIFF=$(svn diff Makefile)
+
 	# See if distinfo is OK
 	check_distfiles
 
 	# Check if there is a PORTREVISION left
-	check_portrevision
+	check_portrevision "${MAKEFILEDIFF}"
+
+	# Check if the port should change GH_* to be properly updated
+	check_gh_commit
 
 	# Return to previous directory
 	cd -
