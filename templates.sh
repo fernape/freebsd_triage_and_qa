@@ -36,23 +36,23 @@ messages["REMOVE_PORTREVISION"]="Q/A: PORTREVISION should be removed"
 #################################
 declare -A actions
 
+actions["BOGUS_TITLE"]="Reword title"
+actions["CLEAR_MAINTAINER_FEEDBACK"]="Set: maintainer-feedback: X "
+actions["COMMITTER_RESOLVING"]="Assignee: <committer>
+Status: In Progress"
+actions["GENERAL_SUPPORT"]="Assignee: <you>
+Status: Closed
+Resolution: Not A Bug"
+actions["LINTERS"]="Keywords: needs-qa "
 actions["MFH_BUGFIX"]="Set: merge-quarterly: ? "
+actions["MFH_RELEVANT"]="Set: merge-quarterly: ? "
 actions["MFH_SECURITY"]="Keywords: security
 CC: ports-secteam
 Priority: High
 Severity: Affects Many People
 Set: merge-quarterly: ? "
-actions["MFH_RELEVANT"]="Set: merge-quarterly: ? "
-actions["LINTERS"]="Keywords: needs-qa "
-actions["CLEAR_MAINTAINER_FEEDBACK"]="Set: maintainer-feedback: X "
 actions["REPORTER_IS_COMMITTER"]="Assignee: <reporter>"
+actions["TAGS"]="Remove tag (except [NEW PORT]) from summary"
 actions["UNABLE_REPRODUCE"]="Assignee: <yourself>
 Status: Closed
 Resolution: <as appropriate>"
-actions["COMMITTER_RESOLVING"]="Assignee: <committer>
-Status: In Progress"
-actions["TAGS"]="Remove tag (except [NEW PORT]) from summary"
-actions["GENERAL_SUPPORT"]="Assignee: <you>
-Status: Closed
-Resolution: Not A Bug"
-actions["BOGUS_TITLE"]="Reword title"
