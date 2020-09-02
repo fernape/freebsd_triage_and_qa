@@ -29,6 +29,8 @@ If your issue is isolated to be a bug and is reproducible on an up-to-date and s
 
 #### Cusctom mesages not present in the wiki ####
 messages["GH_TAGTUPLE"]="Q/A: DIST/PORTVERSION has been updated but GH_TAGNAME/TUPLE has not been updated"
+messages["PATCH_FAILED"]="Q/A: patch did not apply cleanly. Would you mind checking it?"
+messages["PATCH_HAS_CRLF"]="Patch contains CRLF terminators. If you pasted it in bugzilla try to upload it as an attachment."
 messages["REMOVE_PORTREVISION"]="Q/A: PORTREVISION should be removed"
 
 #################################
