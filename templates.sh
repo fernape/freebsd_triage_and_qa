@@ -28,8 +28,8 @@ messages["GENERAL_SUPPORT"]="^Triage: Thank you for your report. Our issue track
 If your issue is isolated to be a bug and is reproducible on an up-to-date and supported FreeBSD version, please re-open this issue with additional information and steps to reproduce."
 
 #### Cusctom mesages not present in the wiki ####
-messages["REMOVE_PORTREVISION"]="Q/A: PORTREVISION should be removed"
 messages["GH_TAGTUPLE"]="Q/A: DIST/PORTVERSION has been updated but GH_TAGNAME/TUPLE has not been updated"
+messages["REMOVE_PORTREVISION"]="Q/A: PORTREVISION should be removed"
 
 #################################
 # Action templates		#
