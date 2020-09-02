@@ -157,13 +157,13 @@ print_report()
 	echo -e "\n---------- REPORT ---------- "
 	if [[ ${#msg_stack[@]} -ne 0 ]]; then
 		echo "Messages:"
-		printf "%s\n" "${msg_stack[@]}"
+		printf "%s\n\n" "${msg_stack[@]}"
 	fi
 
 	if [[ ${#act_stack[@]} -ne 0 ]]; then
 		echo -e "\nActions:"
 		# Filter in case there are redundant actions
-		printf "%s\n" "${act_stack[@]}" | sort -u
+		printf "%s\n\n" "${act_stack[@]}" | sort -u
 	fi
 
 	echo -e "\nThanks!"
