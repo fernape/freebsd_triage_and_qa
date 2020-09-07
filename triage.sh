@@ -29,6 +29,7 @@ has_patches=$(number_of_patches "${pr}")
 check_reporter_is_committer
 check_title
 check_for_changelog
+check_changelog_content
 check_port_exists
 
 check_reporter_is_maintainer

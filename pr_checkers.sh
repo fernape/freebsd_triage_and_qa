@@ -113,6 +113,10 @@ check_title()
 	fi
 }
 
+#################################################
+# Check if this is an update and there is a 	#
+# changelog					#
+#################################################
 check_for_changelog()
 {
 	local is_update
@@ -121,5 +125,36 @@ check_for_changelog()
 	if [[ -n "${is_update}" && -z "${data["url"]}" ]]; then
 		echo Port udpate without changelog
 		push_to_report "CHANGELOG"
+	fi
+}
+
+
+#################################################
+# Check for words in the changelog that might 	#
+# indicate this is a candidate to be MFHed	#
+#################################################
+check_changelog_content()
+{
+	local bug_words
+	local changelog_txt
+	local changelog_url
+	local res
+	local sec_words
+
+	bug_words="bug|crash"
+	sec_words="cve|security|vulnerability"
+	changelog_url="${data["url"]}"
+
+
+	if [[ -n "${changelog_url}" ]]; then
+		changelog_txt=$(${CURL} -s "${changelog_url}")
+		res=$(echo "${changelog_txt}" | grep -E -i "${bug_words}")
+		if [[ -n "${res}" ]]; then
+			push_to_report "MFH_BUGFIX"
+		fi
+		res=$(echo "${changelog_txt}" | grep -E -i "${sec_words}")
+		if [[ -n "${res}" ]]; then
+			push_to_report "MFH_SECURITY"
+		fi
 	fi
 }
