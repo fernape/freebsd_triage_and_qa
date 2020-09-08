@@ -160,11 +160,12 @@ print_report()
 		printf "%s\n\n" "${msg_stack[@]}"
 	fi
 
+	echo -e "\nThanks!"
+
 	if [[ ${#act_stack[@]} -ne 0 ]]; then
 		echo -e "\nActions:"
 		# Filter in case there are redundant actions
 		printf "%s\n\n" "${act_stack[@]}" | sort -u
 	fi
 
-	echo -e "\nThanks!"
 }
