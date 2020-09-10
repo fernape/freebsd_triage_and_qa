@@ -74,7 +74,7 @@ apply_patch()
 
 	cd  "${pr_dir}"/"${port_name}" || return 1
 
-	patch -p"${strip_n}" -E < ../../"${patch_file}" &> /dev/null
+	patch -p"${strip_n}" -E -i ../../"${patch_file}" &> /dev/null
 
 	if [[ ${?} -ne 0 ]]; then
 		echo 1
