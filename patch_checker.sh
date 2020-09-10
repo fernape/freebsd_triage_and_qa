@@ -97,12 +97,25 @@ apply_patch()
 run_linters()
 {
 	local port_dir
+	local result
 
 	port_dir="${1}"
 
-	portlint -AC "${port_dir}"
-	portclippy  "${port_dir}"/Makefile
-	portfmt  -D "${port_dir}"/Makefile
+	portlint -AC "${port_dir}" | tee portlint.out
+	portclippy  "${port_dir}"/Makefile | tee portclippy.out
+	portfmt  -D "${port_dir}"/Makefile | tee portfmt.out
+
+	if [[ -s portlint.out ]]; then
+		result=$(grep -E 'FATAL|WARN' portlint.out \
+			| grep -v -E 'happy|journal' \
+			| sed -e 's/^.*: //g'
+		)
+
+		push_to_report "Q/A: ${result}"
+	fi
+
+	# Clean up
+	rm {portlint,portclippy,portfmt}.out
 }
 
 #################################################

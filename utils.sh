@@ -125,7 +125,8 @@ has_maintainer_flag()
 #################################################
 # Push actions and messages to the stack so	#
 # they can be printed later			#
-# $1: key for the messsages and actions hash	#
+# $1: optional key for the messsages and actions#
+# hash						#
 # Globals: msg_stack, act_stack, messages,	#
 # actions					#
 #################################################
@@ -133,13 +134,18 @@ push_to_report()
 {
 	local key
 	local text
+
 	key="${1}"
 
+	# If the key is not found, we add the text verbatim to the msg_stack
 	text=("${messages["${key}"]}")
 	if [[ -n "${text}" ]]; then
 		msg_stack+=("${text}")
+	else
+		msg_stack+=("${key}")
 	fi
 
+	# Actions never have an extra message
 	text=("${actions["${key}"]}")
 	if [[ -n "${text}" ]]; then
 		act_stack+=("${text}")
