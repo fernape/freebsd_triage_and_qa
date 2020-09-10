@@ -76,7 +76,7 @@ get_strip_level()
 	local strip_level
 
 	patch_file="${1}"
-	ref_line="$(grep -E '\+\+\+ (/|[[:alnum:]])+' "${patch_file}" | head -n1)"
+	ref_line="$(grep -E '\+\+\+ (\.|/|[[:alnum:]])+' "${patch_file}" | head -n1)"
 
 	strip_level=$(echo "${ref_line}" | cut -f2 -d" " \
 		| grep -F -o / | wc -l)
