@@ -32,6 +32,7 @@ messages["GH_TAGTUPLE"]="Q/A: DIST/PORTVERSION has been updated but GH_TAGNAME/T
 messages["PATCH_FAILED"]="Q/A: patch did not apply cleanly. Would you mind checking it?"
 messages["PATCH_HAS_CRLF"]="Patch contains CRLF terminators. If you pasted it in bugzilla try to upload it as an attachment."
 messages["REMOVE_PORTREVISION"]="Q/A: PORTREVISION should be removed"
+messages["BOGUS_TITLE"]="^Triage: Simplifying title"
 
 #################################
 # Action templates		#
