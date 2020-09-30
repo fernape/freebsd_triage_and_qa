@@ -142,7 +142,7 @@ check_changelog_content()
 	local sec_words
 
 	bug_words="bug|crash"
-	sec_words="cve|security|vulnerability"
+	sec_words="cve|vulnerability"
 	changelog_url="${data["url"]}"
 
 
