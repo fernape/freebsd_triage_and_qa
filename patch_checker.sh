@@ -111,7 +111,9 @@ run_linters()
 			| sed -e 's/^.*: //g'
 		)
 
-		push_to_report "Q/A: ${result}"
+		if [[ -n "${result}" ]]; then
+			push_to_report "Q/A: ${result}"
+		fi
 	fi
 
 	# Clean up
