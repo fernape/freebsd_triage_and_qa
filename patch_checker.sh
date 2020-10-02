@@ -108,7 +108,7 @@ run_linters()
 	if [[ -s portlint.out ]]; then
 		result=$(grep -E 'FATAL|WARN' portlint.out \
 			| grep -v -E 'happy|journal' \
-			| sed -e 's/^.*: //g'
+			| cut -f2-20 -d:
 		)
 
 		if [[ -n "${result}" ]]; then
