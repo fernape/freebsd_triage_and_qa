@@ -142,7 +142,7 @@ try_patch()
 	if [[ "${success}" -ne 0 ]]; then
 		echo "Patch does not apply"
 		push_to_report "PATCH_FAILED"
-		if [[ $(file "${patch_file}" | grep CRLF) -eq 0 ]]; then
+		if [[ $(file "${patch_file}" | grep CRLF) != '' ]]; then
 			push_to_report "PATCH_HAS_CRLF"
 		fi
 		return
