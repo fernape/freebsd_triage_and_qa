@@ -113,6 +113,7 @@ run_linters()
 
 		if [[ -n "${result}" ]]; then
 			push_to_report "Q/A: ${result}"
+			push_to_report "LINTERS"
 		fi
 	fi
 
