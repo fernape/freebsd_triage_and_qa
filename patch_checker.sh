@@ -132,6 +132,7 @@ try_patch()
 	local patchid
 	local port_dir
 	local pr
+	local ret
 	local success
 
 	pr="${1}"
@@ -143,8 +144,8 @@ try_patch()
 	if [[ "${success}" -ne 0 ]]; then
 		echo "Patch does not apply"
 		push_to_report "PATCH_FAILED"
-		file "${patch_file}" | grep 'CRLF' >/dev/null
-		if [[ $? -ne 0 ]]; then
+		ret="$(file "${WRKDIR}/${pr}/${patch_file}" | grep 'CRLF')"
+		if [[ -n "${ret}" ]]; then
 			push_to_report "PATCH_HAS_CRLF"
 		fi
 		return
