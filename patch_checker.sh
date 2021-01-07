@@ -8,7 +8,8 @@ source config.sh
 source utils.sh
 
 #################################################
-# Counts the number of patches this PR has	#
+# Counts the number of non-obsolete patches	#
+# this PR has					#
 # $1: the patch id				#
 # Return: The number of patches			#
 #################################################
@@ -19,14 +20,15 @@ number_of_patches()
 	bug_id="${1}"
 
 	attach_size=$(${CURL_CMD}/"${bug_id}"/attachment \
-		| ${JQ} ".bugs.\"${bug_id}\"[].is_patch  == 1" | wc -l)
+		| ${JQ} ".bugs.\"${bug_id}\"[] | select(.is_obsolete == 0) | .id" \
+		| wc -l)
 
 	echo "${attach_size}"
 }
 
 #################################################
 # Download patch from PR. Assumes there is	#
-# exactly one patch to download			#
+# exactly one non-obsolete patch to download	#
 # $1: the PR number				#
 # Return the name of the patch in the		#
 # local filesystem				#
@@ -39,7 +41,8 @@ download_patch()
 	file_name="${pr}".patch
 
 	${CURL_CMD}/"${pr}"/attachment \
-			| ${JQ} ".bugs.\"${pr}\"[0].data" \
+			| ${JQ} ".bugs.\"${pr}\"[] | select(.is_obsolete == 0) |
+			select (.is_patch == 1) | .data" \
 			| sed -e 's/"//g' \
 			| b64decode -r > "${file_name}"
 
