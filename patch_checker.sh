@@ -120,6 +120,13 @@ run_linters()
 		fi
 	fi
 
+	# Run igor on pkg-descr for typos
+	igor_res="$(igor ${port_dir}/pkg-descr)"
+	if [[ -n "${gor_res}" ]]; then
+		push_to_report "Q/A: ${igor_res}"
+	fi
+
+
 	# Clean up
 	rm {portlint,portclippy,portfmt}.out
 }
