@@ -13,9 +13,9 @@ BUGZILLA_URL=https://bugs.freebsd.org/bugzilla/rest/bug
 # Command invokation
 CURL_CMD="${CURL} -s ${BUGZILLA_URL}"
 # Where I have my ports
-PORTS_BASE="/home/fernape/FreeBSD-repos/ports/head/"
+PORTS_BASE="/home/fernape/FreeBSD-repos/ports/"
 # Ports repository URL
-PORTS_REPO_URL="https://svn.freebsd.org/ports/head/"
+PORTS_REPO_URL="https://git.freebsd.org/ports.git"
 # Working directory
 WRKDIR=/tmp
 

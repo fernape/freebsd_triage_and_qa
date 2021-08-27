@@ -22,7 +22,12 @@ checkout_port()
 	target="${WRKDIR}"/"${pr}"
 #echo "Checking out ${port} in ${target}"
 	rm -rf "${target}" && mkdir "${target}" && cd "${target}"
-	svn co "${PORTS_REPO_URL}"/"${port}" "${port}" &> /dev/null
+
+	git init -b main &> /dev/null
+	git remote add origin "${PORTS_REPO_URL}"
+	git config core.sparsecheckout true
+	echo "${port}" >> .git/info/sparse-checkout
+	git pull --depth=1 origin main &> /dev/null
 
 	echo "${target}"/"${port}"
 }

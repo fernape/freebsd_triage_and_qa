@@ -150,7 +150,7 @@ analyze_changes()
 	# Store the whole diff so we don't have to
 	# calculate it again and again
 
-	MAKEFILEDIFF=$(svn diff Makefile)
+	MAKEFILEDIFF=$(git diff Makefile)
 
 	# See if distinfo is OK
 	check_distfiles
