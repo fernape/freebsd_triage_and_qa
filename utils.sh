@@ -5,33 +5,41 @@
 # elsewhere					#
 #################################################
 
-source config.sh
+source $(dirname ${BASH_SOURCE[0]})/config.sh
 
 #################################################
-# Checks out a port directory from repo		#
+# Creates a branch for the pr			#
 # $1: pr number					#
 # Return: path of the checked out port		#
 #################################################
-checkout_port()
+create_pr_branch()
 {
+	local changes
+	local cur_branch
 	local port
 	local pr
 	pr="${1}"		
 	port=$(get_port_name)
 
-	target="${WRKDIR}"/"${pr}"
-#echo "Checking out ${port} in ${target}"
-	rm -rf "${target}" && mkdir "${target}" && cd "${target}"
-
-	git init -b main &> /dev/null
-	git remote add origin "${PORTS_REPO_URL}"
-	git config core.sparsecheckout true
-	echo "${port}" >> .git/info/sparse-checkout
-	git pull --depth=1 origin main &> /dev/null
-
-	echo "${target}"/"${port}"
+	cur_branch=$(git branch --show-current)
+	if [[ "${cur_branch}" != "main" ]]; then
+		printf "Refusing to branch from other than 'main'\n"
+		exit 1
+	else
+		# We are in main. Ensure this is clean before
+		# branching off
+		changes=$(git status --porcelain)
+		if [[ -z "${changes}" ]]; then
+			# Branch is clean
+			git checkout -b "pr${pr}-${port}"
+		else
+			printf "Branch is not clean\n"
+			exit 1
+		fi
+	fi
+	
+	echo "${WRKDIR}/${port}"
 }
-
 
 #################################################
 # Gets and parses a PR				#

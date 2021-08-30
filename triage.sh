@@ -1,10 +1,10 @@
 #!/usr/local/bin/bash
 
-source config.sh
-source change_analyzer.sh
-source patch_checker.sh
-source pr_checkers.sh
-source utils.sh
+source $(dirname ${BASH_SOURCE[0]})/config.sh
+source $(dirname ${BASH_SOURCE[0]})/change_analyzer.sh
+source $(dirname ${BASH_SOURCE[0]})/patch_checker.sh
+source $(dirname ${BASH_SOURCE[0]})/pr_checkers.sh
+source $(dirname ${BASH_SOURCE[0]})/utils.sh
 
 if [[ ${#} -eq 0 ]]; then
 	echo Usage "${0} <pr>"
@@ -39,7 +39,7 @@ if [[ "${has_patches}" -eq 1 ]]; then
 	try_patch "${1}"
 
 	port=$(get_port_name)
-	analyze_changes "${WRKDIR}"/"${pr}"/"${port}"
+	analyze_changes "${WRKDIR}"/"${port}"
 else
 	if [[ "${has_patches}" -gt 1 ]]; then
 		echo "Multiple patches in PR"

@@ -4,8 +4,8 @@
 # Functions to check patches			#
 #################################################
 
-source config.sh
-source utils.sh
+source $(dirname ${BASH_SOURCE[0]})/config.sh
+source $(dirname ${BASH_SOURCE[0]})/utils.sh
 
 #################################################
 # Counts the number of non-obsolete patches	#
@@ -38,7 +38,7 @@ download_patch()
 	local file_name
 	local pr
 	pr="${1}"
-	file_name="${pr}".patch
+	file_name="/tmp/${pr}".patch
 
 	${CURL_CMD}/"${pr}"/attachment \
 			| ${JQ} ".bugs.\"${pr}\"[] | select(.is_obsolete == 0) |
@@ -52,8 +52,7 @@ download_patch()
 
 #################################################
 # Apply a patch to a port			#
-# $1: the pr the patch is coming from 		#
-# $2: the name of the patch file		#
+# $1: the name of the patch file		#
 # Return: 0 if patch is apply succesfully, 1	#
 # otherwise					#
 #################################################
@@ -61,23 +60,16 @@ apply_patch()
 {
 	local patch_file
 	local port_name
-	local pr
-	local pr_dir
 	local strip_n
 	
-	pr="${1}"
-	patch_file="${2}"
-	pr_dir="${WRKDIR}"/"${pr}"
+	patch_file="${1}"
 	port_name="$(get_port_name)"
 
 	strip_n=$(get_strip_level "${patch_file}")
 	
-	# Move patch to working dir
-	mv "${patch_file}" "${pr_dir}"
+	cd  "${port_name}" || return 1
 
-	cd  "${pr_dir}"/"${port_name}" || return 1
-
-	patch -p"${strip_n}" -E -i ../../"${patch_file}" &> /dev/null
+	patch -p"${strip_n}" -E -i "${patch_file}" &> /dev/null
 
 	if [[ ${?} -ne 0 ]]; then
 		echo 1
@@ -86,7 +78,7 @@ apply_patch()
 
 	# After applying the patch, we should delete the .orig
 	# so portlint does not get mad
-	find "${pr_dir}" -name '*.orig' -delete
+	find "${WRKDIR}/${port_name}" -name '*.orig' -delete
 
 	echo 0
 }
@@ -147,9 +139,9 @@ try_patch()
 
 	pr="${1}"
 	
-	port_dir=$(checkout_port "${pr}")
+	port_dir=$(create_pr_branch "${pr}")
 	patch_file=$(download_patch "${pr}")
-	success=$(apply_patch "${pr}" "${patch_file}")
+	success=$(apply_patch "${patch_file}")
 
 	if [[ "${success}" -ne 0 ]]; then
 		echo "Patch does not apply"

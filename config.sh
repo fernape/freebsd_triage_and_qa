@@ -17,7 +17,7 @@ PORTS_BASE="/home/fernape/FreeBSD-repos/ports/"
 # Ports repository URL
 PORTS_REPO_URL="https://git.freebsd.org/ports.git"
 # Working directory
-WRKDIR=/tmp
+WRKDIR=${PORTS_BASE}
 
 # List of fields we will parse
 FIELDS="summary classification url platform last_change_time

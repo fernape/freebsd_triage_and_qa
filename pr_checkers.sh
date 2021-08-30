@@ -1,7 +1,7 @@
 #!/usr/local/bin/bash
 
-source templates.sh
-source utils.sh
+source $(dirname ${BASH_SOURCE[0]})/templates.sh
+source $(dirname ${BASH_SOURCE[0]})/utils.sh
 
 #################################################
 # File with all the ckecker functions		#

@@ -1,8 +1,8 @@
 #!/usr/local/bin/bash
 
-source config.sh
-source templates.sh
-source utils.sh
+source $(dirname ${BASH_SOURCE[0]})/config.sh
+source $(dirname ${BASH_SOURCE[0]})/templates.sh
+source $(dirname ${BASH_SOURCE[0]})/utils.sh
 
 MAKEFILEDIFF=""
 
@@ -160,8 +160,5 @@ analyze_changes()
 
 	# Check if the port should change GH_* to be properly updated
 	check_gh_commit "${MAKEFILEDIFF}"
-
-	# Return to previous directory
-	cd -
 }
 
