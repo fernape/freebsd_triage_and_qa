@@ -80,6 +80,18 @@ check_distfiles()
 }
 
 #################################################
+# Check if we are deleting PORTEPOCH		#
+# $1: diff to be analyzed			#
+#################################################
+check_portepoch()
+{
+	if [[ $(variable_changed PORTEPOCH "${diff}") -eq 1 &&
+		grep PORTEPOCH Makefile -ne 0 ]]; then
+		push_to_report "PORTEPOCH_REMOVAL"
+	fi
+}
+
+#################################################
 # Check that PORTREVISION is removed if there	#
 # was a change to DISTVERSION or PORTVERSION	#
 # $1: Makefile diff				#
@@ -134,6 +146,21 @@ check_gh_commit()
 }
 
 #################################################
+# Checks if the pkg-descr WWW entry is using	#
+# http or https.				#
+# $1: Port directory to analyze			#
+#################################################
+check_url_http
+{
+	local r
+
+	r=$(grep 'WWW: http:\>' pkg-descr)
+	if [[ !-z "${r}" ]]; then
+		push_to_report "HTTP_IN_PKG_DESCR"
+	fi
+}
+
+#################################################
 # Driver function. It calls all the other	#
 # analyzers.					#
 # $1: Port directory to analyze			#
@@ -160,5 +187,11 @@ analyze_changes()
 
 	# Check if the port should change GH_* to be properly updated
 	check_gh_commit "${MAKEFILEDIFF}"
+
+	# Check if we are deleting PORTEPOCH
+	check_portepoch "${MAKEFILEDIFF}"
+
+	# Check if the URL in pkg-descr uses http instead of https
+	check_url_http
 }
 
