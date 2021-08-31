@@ -20,7 +20,7 @@ number_of_patches()
 	bug_id="${1}"
 
 	attach_size=$(${CURL_CMD}/"${bug_id}"/attachment \
-		| ${JQ} ".bugs.\"${bug_id}\"[] | select(.is_obsolete == 0) | select(.is_patch == 0).id" \
+		| ${JQ} ".bugs.\"${bug_id}\"[] | select(.is_obsolete == 0) | select(.is_patch == 1).id" \
 		| wc -l)
 
 	echo "${attach_size}"
