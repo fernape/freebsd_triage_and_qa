@@ -33,6 +33,8 @@ messages["PATCH_FAILED"]="Q/A: patch did not apply cleanly. Would you mind check
 messages["PATCH_HAS_CRLF"]="Patch contains CRLF terminators. If you pasted it in bugzilla try to upload it as an attachment."
 messages["REMOVE_PORTREVISION"]="Q/A: PORTREVISION should be removed"
 messages["BOGUS_TITLE"]="^Triage: Simplifying title"
+messages["HTTP_IN_PKG_DESCR"]="^Triage: WWW uses http. Can we use https?"
+messages["PORTEPOCH_REMOVAL"]="^Triage: Is removing PORTEPOCH truly intended?"
 
 #################################
 # Action templates		#
