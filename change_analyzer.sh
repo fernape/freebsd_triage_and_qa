@@ -53,7 +53,7 @@ variable_changed()
 	variable="${1}"
 	diff="${2}"
 
-	res=$(echo "${diff}" | grep -E '^+' | grep -E "${variable}")
+	res=$(echo "${diff}" | grep -E '^\+' | grep -E "${variable}")
 
 	if [[ -n "${res}" ]]; then
 		echo 1
