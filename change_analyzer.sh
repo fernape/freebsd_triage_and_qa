@@ -85,8 +85,10 @@ check_distfiles()
 #################################################
 check_portepoch()
 {
-	if [[ $(variable_changed PORTEPOCH "${diff}") -eq 1 &&
-		grep PORTEPOCH Makefile -ne 0 ]]; then
+	local r
+	r=$(grep PORTEPOCH Makefile)
+
+	if [[ $(variable_changed PORTEPOCH "${diff}") -eq 1 && -z ${r} ]]; then
 		push_to_report "PORTEPOCH_REMOVAL"
 	fi
 }
@@ -150,12 +152,12 @@ check_gh_commit()
 # http or https.				#
 # $1: Port directory to analyze			#
 #################################################
-check_url_http
+check_url_http()
 {
 	local r
 
 	r=$(grep 'WWW: http:\>' pkg-descr)
-	if [[ !-z "${r}" ]]; then
+	if [[ ! -z "${r}" ]]; then
 		push_to_report "HTTP_IN_PKG_DESCR"
 	fi
 }
