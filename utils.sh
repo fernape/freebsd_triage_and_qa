@@ -124,7 +124,7 @@ has_maintainer_flag()
 	pr="${1}"
 
 	flags=$(${CURL_CMD}/"${pr}"/attachment \
-			| ${JQ} ".bugs.\"${pr}\"[0].flags[0].status" \
+		| ${JQ} ".bugs.\"${pr}\"[] | select(.is_obsolete == 0) | select(.is_patch == 1) |.flags[0].status" \
 			| sed -e 's/"//g')
 
 	if [[ "${flags}" == "+" ]]; then
